@@ -2550,11 +2550,10 @@ class TrainingArguments:
         self.adam_epsilon = epsilon
         self.optim_args = args
         return self
-
+    #name: Union[str, SchedulerType] = "linear",
     def set_lr_scheduler(
         self,
-        #name: Union[str, SchedulerType] = "linear",
-        name: SchedulerType = SchedulerType.LINEAR
+        name: SchedulerType = SchedulerType.LINEAR, 
         num_epochs: float = 3.0,
         max_steps: int = -1,
         warmup_ratio: float = 0,
