@@ -724,10 +724,9 @@ class TrainingArguments:
         default=-1,
         metadata={"help": "If > 0: set total number of training steps to perform. Override num_train_epochs."},
     )
-    #lr_scheduler_type: Union[SchedulerType, str] = field(
-    #    default="linear",
-    lr_scheduler_type: Union[SchedulerType, enum]= field(
-        default= "linear",
+    
+    lr_scheduler_type: Union[SchedulerType, str]= field(
+        default="linear",
         metadata={"help": "The scheduler type to use."},
     )
     warmup_ratio: float = field(
@@ -2550,10 +2549,10 @@ class TrainingArguments:
         self.adam_epsilon = epsilon
         self.optim_args = args
         return self
-    #name: Union[str, SchedulerType] = "linear",
+    
     def set_lr_scheduler(
         self,
-        name: Union[Enum, SchedulerType] = "linear", 
+        name: Union[str, SchedulerType] = "linear", 
         num_epochs: float = 3.0,
         max_steps: int = -1,
         warmup_ratio: float = 0,
