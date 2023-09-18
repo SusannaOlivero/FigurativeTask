@@ -1,0 +1,6 @@
+transformers>=4.13.0
+datasets
+torch
+transformers[torch]>=4.13.0
+sacrebleu
+bert_score
