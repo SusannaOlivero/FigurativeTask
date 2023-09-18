@@ -726,8 +726,8 @@ class TrainingArguments:
     )
     #lr_scheduler_type: Union[SchedulerType, str] = field(
     #    default="linear",
-    lr_scheduler_type: SchedulerType = field(
-        default=SchedulerType.LINEAR.value,
+    lr_scheduler_type: Union[SchedulerType, enum]= field(
+        default= "linear",
         metadata={"help": "The scheduler type to use."},
     )
     warmup_ratio: float = field(
@@ -2553,12 +2553,11 @@ class TrainingArguments:
     #name: Union[str, SchedulerType] = "linear",
     def set_lr_scheduler(
         self,
-        name: SchedulerType = SchedulerType.LINEAR, 
+        name: Union[Enum, SchedulerType] = "linear", 
         num_epochs: float = 3.0,
         max_steps: int = -1,
         warmup_ratio: float = 0,
         warmup_steps: int = 0,
-        value: value = SchedulerType.LINEAR.value
     ):
         """
         A method that regroups all arguments linked to the learning rate scheduler and its hyperparameters.
