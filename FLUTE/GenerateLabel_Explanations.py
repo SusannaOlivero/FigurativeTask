@@ -11,7 +11,7 @@ np.random.seed(0)
 
 
 data = []
-for line in open("FigTask/FLUTEfinaltest.json"):
+for line in open("FigTask/FLUTE/FLUTEfinaltest.json"):
     line = json.loads(line)
     data.append(line)
 
