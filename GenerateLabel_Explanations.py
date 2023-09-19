@@ -11,9 +11,7 @@ np.random.seed(0)
 
 
 data = []
-#for line in open("test.jsonl"):
-for line in open("FLUTEfinaltest.json"):
-#for line in open("testgolddata/simile_test.jsonl"):
+for line in open("FigTask/FLUTEfinaltest.json"):
     line = json.loads(line)
     data.append(line)
 
