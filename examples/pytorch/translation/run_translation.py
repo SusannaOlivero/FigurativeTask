@@ -271,6 +271,7 @@ def main():
         "t5-large",
         "t5-3b",
         "t5-11b",
+        "figurative-nlp/metaphor-idiom-simile-generation",
     ]:
         logger.warning(
             "You're running a t5 model but didn't provide a source prefix, which is expected, e.g. with "
