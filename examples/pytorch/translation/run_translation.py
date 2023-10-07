@@ -53,7 +53,7 @@ from transformers.utils.versions import require_version
 import torch
 import pdb
 torch.backends.cuda.matmul.allow_tf32 = True
-
+CUDA_LAUNCH_BLOCKING=1
 
 # Will error if the minimal version of Transformers is not installed. Remove at your own risks.
 check_min_version("4.13.0.dev0")
