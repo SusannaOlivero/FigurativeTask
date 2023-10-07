@@ -361,11 +361,11 @@ def main():
 
     device_ids = [1]
     if model_args.model_name_or_path == 't5-small':
-        device_map = {device_ids[1]: list(range(0, 6))}
+        device_map = {device_ids[0]: list(range(0, 6))}
     elif model_args.model_name_or_path=='t5-base' or model_args.model_name_or_path=="figurative-nlp/t5-figurative-generation" or model_args.model_name_or_path=="figurative-nlp/t5-figurative-paraphrase":
-        device_map = {device_ids[1]: list(range(0, 12))}
+        device_map = {device_ids[0]: list(range(0, 12))}
     else:
-        device_map = {device_ids[1]: list(range(0, 24))}
+        device_map = {device_ids[0]: list(range(0, 24))}
     model.parallelize(device_map)
 
     model.resize_token_embeddings(len(tokenizer))
