@@ -2,12 +2,12 @@ import openai
 import json
 
 data = []
-for line in open("FLUTE\FLUTEfinaltest.json"):
+for line in open("/content/FigTask/FLUTE/FLUTEfinaltest.json"):
     line = json.loads(line)
     data.append(line)
     
 # Imposta la tua chiave API di OpenAI
-#api_key = "LA_TUA_API_KEY"    ? what is?
+api_key = "LA_TUA_API_KEY"
 
 for i in range(len(data)):
     sentence_A = data[i]["premise"]
@@ -15,7 +15,7 @@ for i in range(len(data)):
     instruction = "Does the sentence "+'"'+sentence_A+'" entail or contradict the sentence "'+sentence_B+'"? Please answer between '+'"Entails" or "Contradicts".'# and explain your decision in a sentence.'    
     openai.api_key = api_key
     response = openai.Completion.create(
-        engine="davinci",  # ?
+        engine="davinci",
         prompt=instruction,
         max_tokens=1,  # Limita la risposta a una singola parola (yes o no)
     )
