@@ -1,6 +1,6 @@
 import torch
 import transformers
-from transformers import AutoTokenizer, AutoModelForCausalLM, GPTNeoXTokenizer
+from transformers import AutoTokenizer, AutoModelForCausalLM
 
 
 MIN_TRANSFORMERS_VERSION = '4.25.1'
