@@ -342,7 +342,8 @@ def main():
         cache_dir=cachemachine,
         revision=model_args.model_revision,
         token=MY_TOKEN,
-        device_map=device,
+        load_in_8bit=True, 
+        device_map='auto',
         use_auth_token=True if model_args.use_auth_token else None,
     )
     tokenizer = AutoTokenizer.from_pretrained(
@@ -351,7 +352,8 @@ def main():
         use_fast=model_args.use_fast_tokenizer,
         revision=model_args.model_revision,
         token=MY_TOKEN,
-        device_map=device,
+        load_in_8bit=True, 
+        device_map='auto',
         use_auth_token=True if model_args.use_auth_token else None,
     )
     #model = AutoModelForSeq2SeqLM.from_pretrained(
@@ -361,7 +363,8 @@ def main():
         config=config,
         cache_dir=cachemachine,
         token=MY_TOKEN,
-        device_map=device,
+        load_in_8bit=True, 
+        device_map='auto',
         revision=model_args.model_revision,
         use_auth_token=True if model_args.use_auth_token else None,
     )
