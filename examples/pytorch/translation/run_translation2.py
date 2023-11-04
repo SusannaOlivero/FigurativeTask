@@ -336,6 +336,11 @@ def main():
     # Distributed training:
     # The .from_pretrained methods guarantee that only one local process can concurrently
     # download model & vocab.
+
+    peft_model_id = "meta-llama/Llama-2-7b-chat-hf"
+    model = AutoModelForCausalLM.from_pretrained(peft_model_id, device_map="auto", load_in_8bit=True)
+    model.load_adapter(peft_model_id)
+    
     cachemachine = model_args.cache_dir
     config = AutoConfig.from_pretrained(
         model_args.config_name if model_args.config_name else model_args.model_name_or_path,
