@@ -12,11 +12,12 @@ np.random.seed(0)
 
 data = []
 #for line in open("./FLUTE/FLUTEfinaltest.json"):
-for line in open("FigTask/FLUTE/FLUTEfinaltestgold.json"):
-    line = json.loads(line)
-    data.append(line)
-
-model_dir = "./output/"
+#    line = json.loads(line)
+#    data.append(line)
+with open("home/solivero/FLUTE_data/FLUTE_test.json") as f:
+    data = json.load(f)
+    
+model_dir = "home/solivero/outputFLUTE"
 tokenizer = AutoTokenizer.from_pretrained(model_dir)
 model = AutoModelForSeq2SeqLM.from_pretrained(model_dir)
 model.cuda()
@@ -38,7 +39,7 @@ for i in range(len(data)):
     data[i]["predicted_label"] = predictedlabel
     data[i]["model_explanation"] = predictedExpl
 
-with open("./output/predictions.json","w") as f:
+with open("home/solivero/outputFLUTE/predictions.json","w") as f:
     f.write(json.dumps(data,indent=4))
 
 
