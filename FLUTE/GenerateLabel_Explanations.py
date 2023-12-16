@@ -14,10 +14,10 @@ data = []
 #for line in open("./FLUTE/FLUTEfinaltest.json"):
 #    line = json.loads(line)
 #    data.append(line)
-with open("home/solivero/FLUTE_data/FLUTE_test.json") as f:
+with open("FLUTE_data/FLUTE_test.json") as f:
     data = json.load(f)
     
-model_dir = "home/solivero/outputFLUTE"
+model_dir = "outputFLUTE"
 tokenizer = AutoTokenizer.from_pretrained(model_dir)
 model = AutoModelForSeq2SeqLM.from_pretrained(model_dir)
 model.cuda()
@@ -39,7 +39,7 @@ for i in range(len(data)):
     data[i]["predicted_label"] = predictedlabel
     data[i]["model_explanation"] = predictedExpl
 
-with open("home/solivero/outputFLUTE/predictions.json","w") as f:
+with open("outputFLUTE/predictions.json","w") as f:
     f.write(json.dumps(data,indent=4))
 
 
