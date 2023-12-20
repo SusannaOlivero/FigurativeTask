@@ -35,7 +35,6 @@ from transformers import (
     AutoConfig,
     AutoModelForSeq2SeqLM,
     AutoTokenizer,
-    AutoModelForCausalLM,
     DataCollatorForSeq2Seq,
     HfArgumentParser,
     M2M100Tokenizer,
@@ -54,9 +53,6 @@ from transformers.utils.versions import require_version
 import torch
 import pdb
 torch.backends.cuda.matmul.allow_tf32 = True
-
-MY_TOKEN = "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"
-device = torch.device('cuda')
 
 # Will error if the minimal version of Transformers is not installed. Remove at your own risks.
 check_min_version("4.13.0.dev0")
@@ -270,7 +266,6 @@ def main():
 
     if data_args.source_prefix is None and model_args.model_name_or_path in [
         "t5-small",
-        "meta-llama/Llama-2-7b-chat-hf",
         "t5-base",
         "t5-large",
         "t5-3b",
@@ -336,19 +331,11 @@ def main():
     # Distributed training:
     # The .from_pretrained methods guarantee that only one local process can concurrently
     # download model & vocab.
-
-    peft_model_id = "meta-llama/Llama-2-7b-chat-hf"
-    model = AutoModelForCausalLM.from_pretrained(peft_model_id, device_map="auto", load_in_8bit=True)
-    model.load_adapter(peft_model_id)
-    
     cachemachine = model_args.cache_dir
     config = AutoConfig.from_pretrained(
         model_args.config_name if model_args.config_name else model_args.model_name_or_path,
         cache_dir=cachemachine,
         revision=model_args.model_revision,
-        token=MY_TOKEN,
-        load_in_8bit=True, 
-        device_map='auto',
         use_auth_token=True if model_args.use_auth_token else None,
     )
     tokenizer = AutoTokenizer.from_pretrained(
@@ -356,20 +343,13 @@ def main():
         cache_dir=cachemachine,
         use_fast=model_args.use_fast_tokenizer,
         revision=model_args.model_revision,
-        token=MY_TOKEN,
-        load_in_8bit=True, 
-        device_map='auto',
         use_auth_token=True if model_args.use_auth_token else None,
     )
-    #model = AutoModelForSeq2SeqLM.from_pretrained(
-    model = AutoModelForCausalLM.from_pretrained(
+    model = AutoModelForSeq2SeqLM.from_pretrained(
         model_args.model_name_or_path,
         from_tf=bool(".ckpt" in model_args.model_name_or_path),
         config=config,
         cache_dir=cachemachine,
-        token=MY_TOKEN,
-        load_in_8bit=True, 
-        device_map='auto',
         revision=model_args.model_revision,
         use_auth_token=True if model_args.use_auth_token else None,
     )
@@ -377,19 +357,9 @@ def main():
     
     ### DEVICE ###
     
-    #device_ids = [0,1,2,3]
-    #device_map = {device_ids[0]: list(range(0, 6)),device_ids[1]: list(range(6,12)),device_ids[2]: list(range(12,18)),device_ids[3]: list(range(18,24))}
-    #model.parallelize(device_map)
-
-    device_ids = [0]
-    if model_args.model_name_or_path == 't5-small':
-        device_map = {device_ids[0]: list(range(0, 6))}
-    elif model_args.model_name_or_path=='t5-base' or model_args.model_name_or_path=="figurative-nlp/t5-figurative-generation" or model_args.model_name_or_path=="figurative-nlp/t5-figurative-paraphrase":
-        device_map = {device_ids[0]: list(range(0, 12))}
-    else:
-        device_map = {device_ids[0]: list(range(0, 24))}
+    device_ids = [0,1,2,3]
+    device_map = {device_ids[0]: list(range(0, 6)),device_ids[1]: list(range(6,12)),device_ids[2]: list(range(12,18)),device_ids[3]: list(range(18,24))}
     model.parallelize(device_map)
-
     model.resize_token_embeddings(len(tokenizer))
 
     # Set decoder_start_token_id
