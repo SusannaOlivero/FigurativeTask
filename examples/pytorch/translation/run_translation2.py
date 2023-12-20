@@ -18,7 +18,6 @@ Fine-tuning the library models for sequence to sequence.
 """
 # You can also adapt this script on your own sequence to sequence task. Pointers for this are left as comments.
 
-
 import logging
 import os
 import sys
@@ -53,6 +52,7 @@ from transformers.utils.versions import require_version
 import torch
 import pdb
 torch.backends.cuda.matmul.allow_tf32 = True
+
 
 # Will error if the minimal version of Transformers is not installed. Remove at your own risks.
 check_min_version("4.13.0.dev0")
@@ -270,9 +270,6 @@ def main():
         "t5-large",
         "t5-3b",
         "t5-11b",
-        "figurative-nlp/t5-figurative-generation",
-        "figurative-nlp/t5-figurative-paraphrase",
-        "figurative-nlp/metaphor-idiom-simile-generation",
     ]:
         logger.warning(
             "You're running a t5 model but didn't provide a source prefix, which is expected, e.g. with "
@@ -353,13 +350,11 @@ def main():
         revision=model_args.model_revision,
         use_auth_token=True if model_args.use_auth_token else None,
     )
-
-    
-    ### DEVICE ###
     
     device_ids = [0,1,2,3]
     device_map = {device_ids[0]: list(range(0, 6)),device_ids[1]: list(range(6,12)),device_ids[2]: list(range(12,18)),device_ids[3]: list(range(18,24))}
     model.parallelize(device_map)
+
     model.resize_token_embeddings(len(tokenizer))
 
     # Set decoder_start_token_id
