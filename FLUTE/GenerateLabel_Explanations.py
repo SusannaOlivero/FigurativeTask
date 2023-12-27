@@ -39,7 +39,7 @@ for i in range(len(data)):
     data[i]["predicted_label"] = predictedlabel
     data[i]["model_explanation"] = predictedExpl
 
-with open("outputFLUTE/predictions.json","w") as f:
+with open("outputFLUTE/predictions_3b.json","w") as f:
     f.write(json.dumps(data,indent=4))
 
 
